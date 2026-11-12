@@ -3,112 +3,119 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Companion page for From Joint-Embedding Prediction to World Models: A Survey. Explore five JEPA families, four capability levels, evaluation benchmarks, and representative papers.">
-  <meta name="theme-color" content="#111e34">
-  <title>JEPA to World Models — Survey</title>
+  <meta name="description" content="Companion page for From Joint-Embedding Prediction to World Models: A Survey.">
+  <meta name="theme-color" content="#ffffff">
+  <title>From Joint-Embedding Prediction to World Models: A Survey</title>
   <link rel="stylesheet" href="./style.css">
   <script defer src="./app.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap nav">
-      <a class="brand" href="#top" aria-label="JEPA to World Models home"><span class="brand-mark">J<span>→</span>W</span><span class="brand-name">JEPA to World Models</span></a>
-      <nav aria-label="Main navigation">
-        <a href="#framework">Framework</a><a href="#benchmarks">Benchmarks</a><a href="#papers">Papers</a><a href="#resources">Resources</a>
-      </nav>
-    </div>
-  </header>
-  <main id="main">
-    <section class="hero" id="top">
-      <div class="wrap hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-line"></span> SURVEY COMPANION</p>
-          <h1>From Joint-Embedding Prediction to <em>World Models</em></h1>
-          <p class="hero-lede">A survey of how JEPA methods move from learning useful representations toward predicting environmental change and supporting action.</p>
-          <p class="authors">Ziying Song · Qing Wang · Peiliang Wu · Hao Yang · Yanchen Huo · Lei Yang · Li Wang · Yadan Luo · Zheng Zhu</p>
-          <div class="hero-actions"><a class="button button-primary" href="#framework">Explore the framework <span aria-hidden="true">↗</span></a><a class="button button-quiet" href="#papers">Browse papers <span aria-hidden="true">↓</span></a></div>
-          <p class="manuscript-note">Companion for a working survey manuscript. Publication and PDF links will be added when available.</p>
-        </div>
-        <div class="hero-figure" aria-label="Five JEPA families arranged around the shared prediction idea">
-          <div class="figure-heading">ONE PREDICTION IDEA · FIVE METHOD FAMILIES</div>
-          <div class="orbit">
-            <div class="orbit-ring ring-outer"></div><div class="orbit-ring ring-inner"></div>
-            <div class="orbit-core"><span class="core-small">CONTEXT</span><strong>predict<br>latent target</strong><span class="core-small">REPRESENTATION</span></div>
-            <div class="orbit-node node-f"><b>F</b><span>static<br>context</span></div>
-            <div class="orbit-node node-t"><b>T</b><span>temporal<br>change</span></div>
-            <div class="orbit-node node-a"><b>A</b><span>action<br>effects</span></div>
-            <div class="orbit-node node-m"><b>M</b><span>across<br>modalities</span></div>
-            <div class="orbit-node node-sc"><b>SC</b><span>scene<br>structure</span></div>
-          </div>
-          <div class="figure-foot">Five families organize methods by their main prediction task.</div>
-        </div>
+  <main id="main" class="page">
+    <header class="paper-header" id="top">
+      <h1>From Joint-Embedding Prediction to World Models: A Survey</h1>
+      <p class="authors">Ziying Song · Qing Wang · Peiliang Wu · Hao Yang · Yanchen Huo · Lei Yang · Li Wang · Yadan Luo · Zheng Zhu</p>
+      <p class="paper-note">Survey manuscript in preparation</p>
+      <div class="paper-links">
+        <a href="https://github.com/CatQing521/jepa-world-models-survey">GitHub</a>
+        <a href="#papers">Paper collection</a>
+        <a href="#citation">Citation</a>
+      </div>
+    </header>
+
+    <nav class="contents" aria-label="Contents">
+      <strong>Contents</strong>
+      <a href="#overview">Overview</a>
+      <a href="#taxonomy">Taxonomy</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#benchmarks">Benchmarks</a>
+      <a href="#papers">Collection</a>
+      <a href="#citation">Citation</a>
+    </nav>
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>Joint-Embedding Predictive Architectures (JEPAs) learn by predicting target representations in latent space rather than reconstructing observations. This survey follows their development from self-supervised representation learning toward methods that predict temporal change, action effects, cross-modal relationships, and structured scenes.</p>
+      <p>We use two views of the literature. The five families below organize methods by their main prediction task. Representation, prediction, intervention, and control (R/P/I/C) describe the capabilities examined in the reported experiments.</p>
+    </section>
+
+    <section id="taxonomy">
+      <h2>Taxonomy</h2>
+      <p>The five families are organized by the main prediction task of each method. Some methods span more than one family.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Family</th><th scope="col">Main prediction task</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">JEPA-F · Foundational / static</th><td>Predict missing representations from context within a static observation.</td></tr>
+            <tr><th scope="row">JEPA-T · Temporal</th><td>Predict representations across time or toward future states.</td></tr>
+            <tr><th scope="row">JEPA-A · Action-conditioned</th><td>Condition latent-state prediction on actions and their possible effects.</td></tr>
+            <tr><th scope="row">JEPA-M · Multimodal</th><td>Connect images, language, audio, or other modalities through latent prediction.</td></tr>
+            <tr><th scope="row">JEPA-SC · Structured / scene-centric</th><td>Predict representations of points, objects, geometry, and relations.</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section class="section intro" id="overview">
-      <div class="wrap intro-grid">
-        <div><p class="kicker">THE QUESTION</p><h2>What does latent prediction actually show?</h2></div>
-        <div class="intro-text"><p>JEPA predicts representations rather than reconstructing every pixel. That learning objective can produce useful features, but a method's world-model capability depends on what its experiments test.</p><p>This survey uses two complementary views: a five-family taxonomy for the methods, and four capability levels for the evidence reported in their original studies.</p></div>
+    <section id="capabilities">
+      <h2>Capabilities</h2>
+      <p>These four levels summarize what the original studies evaluate. A method's family does not determine its demonstrated capabilities.</p>
+      <div class="table-scroll">
+        <table class="compact-table">
+          <thead><tr><th scope="col">Level</th><th scope="col">Evaluation question</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">R · Representation</th><td>Are the learned features useful?</td></tr>
+            <tr><th scope="row">P · Prediction</th><td>Can the model predict states not yet observed?</td></tr>
+            <tr><th scope="row">I · Intervention</th><td>Does the prediction respond to changed actions?</td></tr>
+            <tr><th scope="row">C · Control</th><td>Does the system use prediction in a feedback loop?</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section class="section framework" id="framework">
-      <div class="wrap">
-        <div class="section-head"><div><p class="kicker">01 / METHOD TAXONOMY</p><h2>Five JEPA families</h2></div><p>Organized by the main prediction task. A method may span several families; the survey places it by its principal contribution.</p></div>
-        <div class="family-grid">
-          <article class="family-card"><span class="family-index">01</span><div class="family-symbol">F</div><h3>Foundational / static</h3><p>Predict missing representations from context within a static observation.</p><span class="family-code">JEPA-F</span></article>
-          <article class="family-card"><span class="family-index">02</span><div class="family-symbol">T</div><h3>Temporal</h3><p>Learn from video and predict representations across time or toward future states.</p><span class="family-code">JEPA-T</span></article>
-          <article class="family-card"><span class="family-index">03</span><div class="family-symbol">A</div><h3>Action-conditioned</h3><p>Condition latent-state prediction on actions to model their possible effects.</p><span class="family-code">JEPA-A</span></article>
-          <article class="family-card"><span class="family-index">04</span><div class="family-symbol">M</div><h3>Multimodal</h3><p>Use latent prediction to connect images, language, audio, or other sensors.</p><span class="family-code">JEPA-M</span></article>
-          <article class="family-card"><span class="family-index">05</span><div class="family-symbol">SC</div><h3>Structured / scene-centric</h3><p>Predict representations that preserve points, objects, geometry, or relations.</p><span class="family-code">JEPA-SC</span></article>
-        </div>
-        <div class="capability-block">
-          <div class="capability-heading"><p class="kicker">02 / EVIDENCE LENS</p><h2>Four capability levels</h2><p>These levels describe what the reported evaluations support. A taxonomy label alone does not establish a capability.</p></div>
-          <div class="capability-track">
-            <div><span class="capability-letter">R</span><h3>Representation</h3><p>Are the learned features useful?</p></div>
-            <div><span class="capability-letter">P</span><h3>Prediction</h3><p>Can the model predict states not yet observed?</p></div>
-            <div><span class="capability-letter">I</span><h3>Intervention</h3><p>Does prediction respond to changed actions?</p></div>
-            <div><span class="capability-letter">C</span><h3>Control</h3><p>Does the complete system use prediction in a feedback loop?</p></div>
-          </div>
-        </div>
+    <section id="benchmarks">
+      <h2>Benchmarks</h2>
+      <p>The survey reports representative results from the original studies. The table maps each method family to the tasks, datasets, and metrics used in the performance comparison.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Family</th><th scope="col">Tasks and datasets</th><th scope="col">Metrics</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">JEPA-F</th><td>IN-1K · ADE20K · COCO · DAVIS-17</td><td>Top-1 · mIoU · box/mask AP · J&amp;F</td></tr>
+            <tr><th scope="row">JEPA-T</th><td>SSv2 · K400 · EK100</td><td>Top-1 · action mcR@5</td></tr>
+            <tr><th scope="row">JEPA-A</th><td>Two-Room · Reacher · PushT · Cube</td><td>Success rate · four-task average</td></tr>
+            <tr><th scope="row">JEPA-M</th><td>COCO retrieval · video-language benchmarks · AS-20K</td><td>R@1 · classification accuracy · mAP</td></tr>
+            <tr><th scope="row">JEPA-SC</th><td>ScanObjectNN PB-T50-RS · ShapeNetPart</td><td>OA · instance mIoU</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section class="section benchmarks" id="benchmarks">
-      <div class="wrap">
-        <div class="section-head"><div><p class="kicker">03 / EVALUATION MAP</p><h2>Benchmarks in the survey</h2></div><p>The five performance tables report results under the original studies' settings. The datasets and metrics below identify what each table measures.</p></div>
-        <div class="bench-table" role="table" aria-label="Survey benchmarks and metrics">
-          <div class="bench-row bench-label" role="row"><span role="columnheader">Family</span><span role="columnheader">Task &amp; dataset</span><span role="columnheader">Reported metrics</span></div>
-          <div class="bench-row" role="row"><span role="cell"><b>JEPA-F</b> · image</span><span role="cell">IN-1K · ADE20K · COCO · DAVIS-17</span><span role="cell">Top-1 · mIoU · box/mask AP · J&amp;F</span></div>
-          <div class="bench-row" role="row"><span role="cell"><b>JEPA-T</b> · video</span><span role="cell">SSv2 · K400 · EK100</span><span role="cell">Top-1 · action mcR@5</span></div>
-          <div class="bench-row" role="row"><span role="cell"><b>JEPA-A</b> · control</span><span role="cell">Two-Room · Reacher · PushT · Cube</span><span role="cell">Success rate · four-task average</span></div>
-          <div class="bench-row" role="row"><span role="cell"><b>JEPA-M</b> · multimodal</span><span role="cell">COCO retrieval · video-language benchmarks · AS-20K</span><span role="cell">R@1 · classification accuracy · mAP</span></div>
-          <div class="bench-row" role="row"><span role="cell"><b>JEPA-SC</b> · 3D</span><span role="cell">ScanObjectNN PB-T50-RS · ShapeNetPart</span><span role="cell">OA · instance mIoU</span></div>
+    <section id="papers">
+      <h2>Collection</h2>
+      <p>A selected reading list of representative methods discussed in the survey. Filter by family or search by method and paper title.</p>
+      <div class="library-controls">
+        <div class="filters" role="group" aria-label="Filter papers by family">
+          <button class="filter active" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" data-filter="F" aria-pressed="false">JEPA-F</button>
+          <button class="filter" data-filter="T" aria-pressed="false">JEPA-T</button>
+          <button class="filter" data-filter="A" aria-pressed="false">JEPA-A</button>
+          <button class="filter" data-filter="M" aria-pressed="false">JEPA-M</button>
+          <button class="filter" data-filter="SC" aria-pressed="false">JEPA-SC</button>
         </div>
+        <label class="search"><span class="sr-only">Search papers</span><input id="paper-search" type="search" placeholder="Search papers" autocomplete="off"></label>
       </div>
+      <p class="paper-count" id="paper-count" aria-live="polite"></p>
+      <div class="paper-list" id="paper-list"></div>
     </section>
 
-    <section class="section library" id="papers">
-      <div class="wrap">
-        <div class="section-head"><div><p class="kicker">04 / READING LIST</p><h2>Representative papers</h2></div><p>Selected methods named in the survey's taxonomy table. Use the family filter to follow one technical line.</p></div>
-        <div class="library-controls"><div class="filters" role="group" aria-label="Filter papers by family"><button class="filter active" data-filter="all" aria-pressed="true">All</button><button class="filter" data-filter="F" aria-pressed="false">JEPA-F</button><button class="filter" data-filter="T" aria-pressed="false">JEPA-T</button><button class="filter" data-filter="A" aria-pressed="false">JEPA-A</button><button class="filter" data-filter="M" aria-pressed="false">JEPA-M</button><button class="filter" data-filter="SC" aria-pressed="false">JEPA-SC</button></div><label class="search"><span class="sr-only">Search papers</span><input id="paper-search" type="search" placeholder="Search method or title…" autocomplete="off"></label></div>
-        <div class="paper-count" id="paper-count" aria-live="polite"></div>
-        <div class="paper-list" id="paper-list"></div>
-        <p class="library-note">This is a selected reading list, not a claim to cover every JEPA paper. Entries without a link in the current bibliography retain their manuscript citation key.</p>
-      </div>
+    <section id="citation">
+      <h2>Citation</h2>
+      <p>The survey manuscript is in preparation. A BibTeX entry and public PDF link will be added when a version is released.</p>
     </section>
 
-    <section class="section resources" id="resources">
-      <div class="wrap resource-grid">
-        <div><p class="kicker">05 / RESOURCES</p><h2>Paper &amp; materials</h2><p>The companion page follows the current survey manuscript. A public PDF and repository URL can be connected after those files are released.</p></div>
-        <div class="resource-cards">
-          <div class="resource-card"><span class="resource-icon">↗</span><div><h3>Manuscript PDF</h3><p>Latest file to be exported from the Overleaf master.</p><span class="resource-status">Awaiting export</span></div></div>
-          <div class="resource-card"><span class="resource-icon">⌘</span><div><h3>GitHub-ready source</h3><p>Site files and reading list are prepared for a public repository.</p><span class="resource-status">Ready locally</span></div></div>
-        </div>
-      </div>
-    </section>
+    <footer>
+      <p>From Joint-Embedding Prediction to World Models: A Survey</p>
+      <a href="#top">Back to top</a>
+    </footer>
   </main>
-  <footer><div class="wrap footer-inner"><span>JEPA → World Models</span><span>Survey companion · manuscript in preparation</span><a href="#top">Back to top ↑</a></div></footer>
 </body>
 </html>
