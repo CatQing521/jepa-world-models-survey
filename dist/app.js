@@ -60,6 +60,10 @@
   }).then(function(data) {
     papers = data;
     render();
+    if (window.location.hash) {
+      var anchor = document.getElementById(window.location.hash.slice(1));
+      if (anchor) anchor.scrollIntoView();
+    }
   }).catch(function() {
     count.textContent = "Reading list unavailable";
     list.appendChild(element("p", "empty-state", "Please reload the page to view the reading list."));
