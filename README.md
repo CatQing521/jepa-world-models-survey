@@ -10,7 +10,7 @@ The survey organizes Joint-Embedding Predictive Architecture (JEPA) methods by t
 | --- | --- |
 | [Project page](./dist/index.html) | Taxonomy, R/P/I/C capability levels, benchmark map, and searchable reading list |
 | [Reading list](./dist/papers.json) | 26 representative entries from the manuscript's taxonomy table, with citation keys and available paper links |
-| [PDF instructions](./paper/README.md) | Where to place the current PDF exported from the Overleaf master |
+| [Manuscript PDF](./paper/survey.pdf) | Current 19-page PDF supplied by the authors |
 
 ## Survey map
 
@@ -50,4 +50,4 @@ Entries in [dist/papers.json](./dist/papers.json) are selected from the current 
 
 ## Citation
 
-The survey has no public publication record linked here yet. Please cite the released manuscript once its official PDF, arXiv identifier, or DOI is available.
+The current [manuscript PDF](./paper/survey.pdf) is available. Please cite the released manuscript once an arXiv identifier or DOI is available.
