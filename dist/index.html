@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Companion page for From Joint-Embedding Prediction to World Models: A Survey.">
+  <meta name="description" content="Project page and method collection for From Joint-Embedding Prediction to World Models: A Survey.">
   <meta name="theme-color" content="#ffffff">
   <title>From Joint-Embedding Prediction to World Models: A Survey</title>
+  <link rel="canonical" href="https://catqing521.github.io/jepa-world-models-survey/dist/">
   <link rel="stylesheet" href="./style.css">
   <script defer src="./app.js"></script>
 </head>
@@ -13,86 +14,110 @@
   <a class="skip" href="#main">Skip to content</a>
   <main id="main" class="page">
     <header class="paper-header" id="top">
+      <p class="eyebrow">Survey project page</p>
       <h1>From Joint-Embedding Prediction to World Models: A Survey</h1>
-      <p class="authors">Ziying Song · Qing Wang · Peiliang Wu · Hao Yang · Yanchen Huo · Lei Yang · Li Wang · Yadan Luo · Zheng Zhu</p>
-      <p class="paper-note">Survey manuscript in preparation</p>
-      <div class="paper-links">
-        <a href="../paper/survey.pdf">PDF</a>
-        <a href="https://github.com/CatQing521/jepa-world-models-survey">GitHub</a>
-        <a href="#papers">Paper collection</a>
+      <p class="authors">Ziying Song<sup>*</sup> · Qing Wang<sup>*</sup> · Peiliang Wu · Hao Yang · Yanchen Huo · Lei Yang · Li Wang · Yadan Luo · Zheng Zhu</p>
+      <p class="paper-note"><sup>*</sup> Equal contribution · Manuscript in preparation</p>
+      <div class="paper-links" aria-label="Project resources">
+        <a href="../paper/survey.pdf">Manuscript PDF</a>
+        <a href="https://github.com/CatQing521/jepa-world-models-survey">GitHub repository</a>
+        <a href="#collection">Method collection</a>
         <a href="#citation">Citation</a>
       </div>
     </header>
 
-    <nav class="contents" aria-label="Contents">
+    <nav class="contents" aria-label="Page contents">
       <strong>Contents</strong>
-      <a href="#overview">Overview</a>
+      <a href="#introduction">Introduction</a>
+      <a href="#framework">Framework</a>
       <a href="#taxonomy">Taxonomy</a>
-      <a href="#capabilities">Capabilities</a>
+      <a href="#evidence">Capabilities</a>
       <a href="#benchmarks">Benchmarks</a>
-      <a href="#papers">Collection</a>
+      <a href="#applications">Applications</a>
+      <a href="#collection">Collection</a>
+      <a href="#challenges">Challenges</a>
       <a href="#citation">Citation</a>
+      <a href="#authors">Authors</a>
     </nav>
 
-    <section id="overview">
-      <h2>Overview</h2>
-      <p>Joint-Embedding Predictive Architectures (JEPAs) learn by predicting target representations in latent space rather than reconstructing observations. This survey follows their development from self-supervised representation learning toward methods that predict temporal change, action effects, cross-modal relationships, and structured scenes.</p>
-      <p>We use two views of the literature. The five families below organize methods by their main prediction task. Representation, prediction, intervention, and control (R/P/I/C) describe the capabilities examined in the reported experiments.</p>
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <p>World models help an agent anticipate how its environment may change and what different actions may lead to. Joint-Embedding Predictive Architectures (JEPAs) approach this problem by predicting a representation of a target observation from context, without reconstructing every detail of the observation itself.</p>
+      <p>The survey follows JEPA research from self-supervised image learning to video, action-conditioned dynamics, multimodal learning, and structured scene modeling. Its central question is what those systems actually demonstrate: a useful feature representation, a prediction of an unseen future, a response to an action, or a model that helps an agent act through feedback.</p>
+      <p>The full manuscript contains the method analysis, source citations, capability judgments, and performance tables. This page is a guide to its organization and a searchable entry point to representative work.</p>
+    </section>
+
+    <section id="framework">
+      <h2>Survey framework</h2>
+      <p>Two views keep method design separate from experimental evidence. The <a href="#taxonomy">five-family taxonomy</a> groups work by its main prediction target. The <a href="#evidence">R/P/I/C analysis</a> asks what has been tested. A method may touch several families; neither its name nor its training loss alone establishes world-model capability.</p>
+      <div class="framework" role="img" aria-label="JEPA latent prediction leads to five method families, which are evaluated with representation, prediction, intervention, and control evidence">
+        <div class="framework-node framework-start"><strong>JEPA latent prediction</strong><span>context → target representation</span></div>
+        <div class="framework-arrow" aria-hidden="true">↓</div>
+        <div class="framework-families"><span>JEPA-F</span><span>JEPA-T</span><span>JEPA-A</span><span>JEPA-M</span><span>JEPA-SC</span></div>
+        <div class="framework-arrow" aria-hidden="true">↓</div>
+        <div class="framework-node framework-end"><strong>Reported evidence</strong><span>Representation · Prediction · Intervention · Control</span></div>
+      </div>
     </section>
 
     <section id="taxonomy">
-      <h2>Taxonomy</h2>
-      <p>The five families are organized by the main prediction task of each method. Some methods span more than one family.</p>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th scope="col">Family</th><th scope="col">Main prediction task</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">JEPA-F · Foundational / static</th><td>Predict missing representations from context within a static observation.</td></tr>
-            <tr><th scope="row">JEPA-T · Temporal</th><td>Predict representations across time or toward future states.</td></tr>
-            <tr><th scope="row">JEPA-A · Action-conditioned</th><td>Condition latent-state prediction on actions and their possible effects.</td></tr>
-            <tr><th scope="row">JEPA-M · Multimodal</th><td>Connect images, language, audio, or other modalities through latent prediction.</td></tr>
-            <tr><th scope="row">JEPA-SC · Structured / scene-centric</th><td>Predict representations of points, objects, geometry, and relations.</td></tr>
-          </tbody>
-        </table>
+      <h2>Five JEPA families</h2>
+      <p>The categories follow the method's primary prediction task. They are a way to read the technical literature, not a strict partition or a ranking.</p>
+      <div class="family-list">
+        <article class="family"><div class="family-heading"><span class="family-code">JEPA-F</span><h3>Foundational and static prediction</h3></div><p>Predict a missing representation using context from the same static observation. The survey traces masked regions, local semantic targets, and constraints that keep the representation useful.</p><p class="examples"><strong>Examples:</strong> I-JEPA · DMT-JEPA · SparseJEPA</p></article>
+        <article class="family"><div class="family-heading"><span class="family-code">JEPA-T</span><h3>Temporal prediction</h3></div><p>Use video or sequential context to predict spatiotemporal representations or later states. The distinction between learning features from masked video and testing genuinely future prediction matters here.</p><p class="examples"><strong>Examples:</strong> V-JEPA · V-JEPA 2 · MC-JEPA</p></article>
+        <article class="family"><div class="family-heading"><span class="family-code">JEPA-A</span><h3>Action-conditioned prediction</h3></div><p>Include actions when estimating subsequent latent states. The survey covers action learning and latent rollouts used to compare candidate actions during planning.</p><p class="examples"><strong>Examples:</strong> V-JEPA 2-AC · LeWM · Fast-LeWM</p></article>
+        <article class="family"><div class="family-heading"><span class="family-code">JEPA-M</span><h3>Multimodal prediction</h3></div><p>Connect representations from visual, language, audio, or other inputs through target prediction and fusion. These studies differ in whether they test alignment, retrieval, classification, or action-related use.</p><p class="examples"><strong>Examples:</strong> VL-JEPA · M3-JEPA · AV-JEPA</p></article>
+        <article class="family"><div class="family-heading"><span class="family-code">JEPA-SC</span><h3>Structured and scene-centric prediction</h3></div><p>Keep point geometry, objects, or relations explicit in the representation. The survey covers point clouds, spatiotemporal geometry, and object-level changes.</p><p class="examples"><strong>Examples:</strong> Point-JEPA · 3D-JEPA · Causal-JEPA</p></article>
       </div>
     </section>
 
-    <section id="capabilities">
-      <h2>Capabilities</h2>
-      <p>These four levels summarize what the original studies evaluate. A method's family does not determine its demonstrated capabilities.</p>
-      <div class="table-scroll">
-        <table class="compact-table">
-          <thead><tr><th scope="col">Level</th><th scope="col">Evaluation question</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">R · Representation</th><td>Are the learned features useful?</td></tr>
-            <tr><th scope="row">P · Prediction</th><td>Can the model predict states not yet observed?</td></tr>
-            <tr><th scope="row">I · Intervention</th><td>Does the prediction respond to changed actions?</td></tr>
-            <tr><th scope="row">C · Control</th><td>Does the system use prediction in a feedback loop?</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <section id="evidence">
+      <h2>What counts as world-model evidence?</h2>
+      <p>The manuscript's Table 2 assesses representative methods through four levels. These levels describe what the original experiments support, rather than what a model might be capable of in principle.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Level</th><th scope="col">Question</th><th scope="col">Typical evidence</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">R · Representation</th><td>Are the learned features useful?</td><td>Downstream recognition, retrieval, segmentation, or transfer.</td></tr>
+          <tr><th scope="row">P · Prediction</th><td>Does the model predict an unseen future state?</td><td>Evaluation on states after the observed context.</td></tr>
+          <tr><th scope="row">I · Intervention</th><td>Does a changed action lead to an appropriately changed prediction?</td><td>Action-conditioned tests that distinguish candidate outcomes.</td></tr>
+          <tr><th scope="row">C · Control</th><td>Does prediction help an agent act under feedback?</td><td>Closed-loop task results, with separate evidence for the predictive module's contribution.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Table 2 separates <strong>C<sub>sys</sub></strong>, performance of a complete closed-loop system, from <strong>C<sub>attr</sub></strong>, evidence that the predictive component contributes to the result. <strong>D</strong> marks a direct test; <strong>Q</strong> marks related but incomplete evidence; <strong>—</strong> means sufficient evidence was not reported. The judgments and their sources are in the <a href="../paper/survey.pdf">manuscript</a>.</p>
     </section>
 
     <section id="benchmarks">
-      <h2>Benchmarks</h2>
-      <p>The survey reports representative results from the original studies. The table maps each method family to the tasks, datasets, and metrics used in the performance comparison.</p>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th scope="col">Family</th><th scope="col">Tasks and datasets</th><th scope="col">Metrics</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">JEPA-F</th><td>IN-1K · ADE20K · COCO · DAVIS-17</td><td>Top-1 · mIoU · box/mask AP · J&amp;F</td></tr>
-            <tr><th scope="row">JEPA-T</th><td>SSv2 · K400 · EK100</td><td>Top-1 · action mcR@5</td></tr>
-            <tr><th scope="row">JEPA-A</th><td>Two-Room · Reacher · PushT · Cube</td><td>Success rate · four-task average</td></tr>
-            <tr><th scope="row">JEPA-M</th><td>COCO retrieval · video-language benchmarks · AS-20K</td><td>R@1 · classification accuracy · mAP</td></tr>
-            <tr><th scope="row">JEPA-SC</th><td>ScanObjectNN PB-T50-RS · ShapeNetPart</td><td>OA · instance mIoU</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <h2>Datasets and evaluation</h2>
+      <p>Tables 4–8 compare representative reported results for the five families. The map below links each table to the actual tasks and measures used in the manuscript.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Table</th><th scope="col">Tasks and datasets</th><th scope="col">Reported metrics</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">4 · JEPA-F</th><td>ImageNet-1K classification; ADE20K segmentation; COCO detection and instance segmentation; DAVIS-2017 video object segmentation</td><td>Linear, fine-tuned, and 1% accuracy; mIoU; box/mask AP; J&amp;F, J, F</td></tr>
+          <tr><th scope="row">5 · JEPA-T</th><td>Something-Something V2 and Kinetics-400 action recognition; EPIC-KITCHENS-100 action anticipation</td><td>Top-1 accuracy; action mcR@5</td></tr>
+          <tr><th scope="row">6 · JEPA-A</th><td>Two-Room navigation; Reacher; PushT; Cube</td><td>Success rate; four-task average</td></tr>
+          <tr><th scope="row">7 · JEPA-M</th><td>COCO image–text retrieval; video–language retrieval and classification; AudioSet AS-20K audio–visual event classification</td><td>R@1; classification accuracy; mAP</td></tr>
+          <tr><th scope="row">8 · JEPA-SC</th><td>ScanObjectNN PB-T50-RS object classification; ShapeNetPart part segmentation</td><td>Overall accuracy; instance mIoU</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Reading the results</h3>
+      <p>Image and video accuracy measure recognition; segmentation and detection metrics test spatial detail; retrieval scores measure cross-modal matching; success rate measures completion of an action task. The tables quote original studies. A shared dataset or metric does not make two results directly comparable when splits, backbones, training, or evaluation protocols differ. The site therefore does not turn these numbers into a single leaderboard.</p>
     </section>
 
-    <section id="papers">
-      <h2>Collection</h2>
-      <p>A selected reading list of representative methods discussed in the survey. Filter by family or search by method and paper title.</p>
+    <section id="applications">
+      <h2>Application areas</h2>
+      <p>The same JEPA training idea serves different tasks. In some settings only the learned encoder is used; in others the predictor estimates future states or action effects.</p>
+      <div class="application-grid">
+        <div><h3>Image and video</h3><p>Image classification and dense prediction use the learned representation. Video work additionally tests motion understanding and anticipation.</p></div>
+        <div><h3>3D and structured scenes</h3><p>Point cloud, geometry, and object-level studies test whether spatial structure remains available in the learned state.</p></div>
+        <div><h3>Robotics and driving</h3><p>Action-conditioned models can estimate outcomes for planning; system-level control requires feedback evaluation.</p></div>
+        <div><h3>Multimodal and scientific data</h3><p>Cross-modal matching, event recognition, and sequential scientific tasks use prediction targets beyond ordinary images.</p></div>
+      </div>
+      <p>Table 9 and Section 5 of the manuscript give representative methods for each area and distinguish application requirements from demonstrated model abilities.</p>
+    </section>
+
+    <section id="collection">
+      <h2>Method collection</h2>
+      <p>Search 26 representative method entries from the survey's taxonomy and method discussion. This is a curated guide, not the full manuscript bibliography. Each entry includes the manuscript citation key; links appear when the bibliography records a stable source.</p>
       <div class="library-controls">
         <div class="filters" role="group" aria-label="Filter papers by family">
           <button class="filter active" data-filter="all" aria-pressed="true">All</button>
@@ -102,15 +127,41 @@
           <button class="filter" data-filter="M" aria-pressed="false">JEPA-M</button>
           <button class="filter" data-filter="SC" aria-pressed="false">JEPA-SC</button>
         </div>
-        <label class="search"><span class="sr-only">Search papers</span><input id="paper-search" type="search" placeholder="Search papers" autocomplete="off"></label>
+        <label class="search"><span class="sr-only">Search methods</span><input id="paper-search" type="search" placeholder="Search methods or titles" autocomplete="off"></label>
       </div>
       <p class="paper-count" id="paper-count" aria-live="polite"></p>
       <div class="paper-list" id="paper-list"></div>
+      <p class="source-note">For experimental settings and numerical results, see the original papers and Tables 4–8 in the manuscript.</p>
+    </section>
+
+    <section id="challenges">
+      <h2>Challenges and directions</h2>
+      <p>Section 6 identifies five questions that remain important as latent prediction is used for world modeling:</p>
+      <ol class="challenge-list">
+        <li><strong>Representation stability.</strong> Does the state retain variables needed for later prediction, not just recognition?</li>
+        <li><strong>Action grounding.</strong> Does the prediction reflect what a particular action changes?</li>
+        <li><strong>Long-horizon dynamics.</strong> How can rollouts handle accumulating error and multiple possible futures?</li>
+        <li><strong>Structured states.</strong> Can objects and relations be tracked through occlusion, interaction, and new combinations?</li>
+        <li><strong>Selective verification.</strong> Can a latent model detect consequential mistakes without decoding every predicted detail?</li>
+      </ol>
     </section>
 
     <section id="citation">
       <h2>Citation</h2>
-      <p><a href="../paper/survey.pdf">Download the current manuscript PDF</a>. A formal BibTeX entry will be added when a version is released.</p>
+      <p><strong>From Joint-Embedding Prediction to World Models: A Survey</strong><br>Ziying Song, Qing Wang, Peiliang Wu, Hao Yang, Yanchen Huo, Lei Yang, Li Wang, Yadan Luo, and Zheng Zhu.</p>
+      <p><a href="../paper/survey.pdf">Download the current manuscript PDF</a>. The entry below identifies this manuscript version; it does not imply journal acceptance. Update it when a public arXiv record or DOI becomes available.</p>
+      <pre class="bibtex"><code>@misc{song_jepa_world_models_survey,
+  title  = {From Joint-Embedding Prediction to World Models: A Survey},
+  author = {Song, Ziying and Wang, Qing and Wu, Peiliang and Yang, Hao and Huo, Yanchen and Yang, Lei and Wang, Li and Luo, Yadan and Zhu, Zheng},
+  note   = {Manuscript in preparation},
+  url    = {https://catqing521.github.io/jepa-world-models-survey/paper/survey.pdf}
+}</code></pre>
+    </section>
+
+    <section id="authors">
+      <h2>Authors and contact</h2>
+      <p>Ziying Song and Qing Wang contributed equally. Peiliang Wu is the corresponding author. The complete affiliations and contact details appear on the title page of the manuscript.</p>
+      <p>For corrections to the reading list or project page, use the <a href="https://github.com/CatQing521/jepa-world-models-survey/issues">GitHub issue tracker</a> and include the method name and manuscript citation key.</p>
     </section>
 
     <footer>
