@@ -7,6 +7,12 @@
   var papers = [];
   var family = "all";
 
+  function alignHash() {
+    if (!window.location.hash) return;
+    var anchor = document.getElementById(window.location.hash.slice(1));
+    if (anchor) anchor.scrollIntoView({behavior:"instant", block:"start"});
+  }
+
   function element(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
@@ -60,10 +66,9 @@
   }).then(function(data) {
     papers = data;
     render();
-    if (window.location.hash) {
-      var anchor = document.getElementById(window.location.hash.slice(1));
-      if (anchor) anchor.scrollIntoView();
-    }
+    alignHash();
+    window.requestAnimationFrame(alignHash);
+    window.setTimeout(alignHash, 100);
   }).catch(function() {
     count.textContent = "Reading list unavailable";
     list.appendChild(element("p", "empty-state", "Please reload the page to view the reading list."));
